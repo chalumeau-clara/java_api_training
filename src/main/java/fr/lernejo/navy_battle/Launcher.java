@@ -3,17 +3,19 @@ import java.io.IOException;
 
 public class Launcher {
 
-    private static int port = 9876;
+    private final int port = 9876;
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
         // Create server
-        HttpServerSimple server = new HttpServerSimple(9876, "");
-        HttpServerSimple server2 = new HttpServerSimple(8795, "http://localhost:9876");
-        // Start
-        server.start();
-        server2.start();
-
+        if (args.length == 1) {
+            HttpServerSimple server = new HttpServerSimple(Integer.parseInt(args[0]), "");
+            server.start();
+        }
+        else if (args.length == 2) {
+            HttpServerSimple server2 = new HttpServerSimple(Integer.parseInt(args[0]), args[1]);
+            server2.start();
+        }
 
     }
 }
