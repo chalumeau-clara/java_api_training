@@ -17,17 +17,20 @@ public class HttpServerSimple {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         this.server.setExecutor(executorService);
-        // New client
-
-        this.server.createContext("/ping", new HttpHandlerPing());
-        this.server.createContext("/api/game/start", new HttpHandlerPost(port));
-        this.server.createContext("/api/game/fire", new HttpHandlerPost(port));
+        // Create server
+        ManageBattle manageBattle = new ManageBattle();
+        Cell cell = new Cell();
         if (!url.equals("")) {
             // Async
             HttpClientSimple client = new HttpClientSimple(port);
             client.SendPost(url);
+            manageBattle.addClient(port, url, manageBattle);
         }
-
+        else {
+            this.server.createContext("/api/game/start", new HttpHandlerPost(port, cell, manageBattle));
+        }
+        this.server.createContext("/ping", new HttpHandlerPing());
+        this.server.createContext("/api/game/fire", new HttpHandlerGet(port, cell, manageBattle));
     }
 
     public void start() {

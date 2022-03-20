@@ -7,7 +7,6 @@ public class Launcher {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        // Create server
         if (args.length == 1) {
             HttpServerSimple server = new HttpServerSimple(Integer.parseInt(args[0]), "");
             server.start();
