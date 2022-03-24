@@ -1,6 +1,5 @@
 package fr.lernejo.navy_battle;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -8,8 +7,8 @@ import java.net.http.HttpResponse;
 
 public class HttpClientFire {
     private final HttpClient client;
-    private final int port;
-    private final String adversaryUrl;
+    public final int port;
+    public final String adversaryUrl;
     private final ManageBattle manageBattle;
 
     public HttpClientFire(int port, String url, ManageBattle manageBattle) {
@@ -19,8 +18,7 @@ public class HttpClientFire {
         this.manageBattle = manageBattle;
     }
 
-    public void SendGet(String cell) throws IOException, InterruptedException {
-
+    public boolean SendFire(String cell){
         HttpRequest requestPost = HttpRequest.newBuilder()
             .uri(URI.create(this.adversaryUrl + "/api/game/fire?cell=" + cell))
             .setHeader("Accept", "application/json")
@@ -32,7 +30,7 @@ public class HttpClientFire {
                 resp.statusCode() + " : " + resp.body()));
         }
         catch (Exception e) {
-            e.printStackTrace();
-        }
+            System.err.println("Error while receiving response when Fire request: " + e);}
+        return true;
     }
 }

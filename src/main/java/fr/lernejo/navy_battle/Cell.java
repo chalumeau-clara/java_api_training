@@ -1,9 +1,5 @@
 package fr.lernejo.navy_battle;
 
-import java.util.Collections;
-import java.util.Map;
-
-
 public class Cell {
 
     // 0 means nothing
@@ -49,14 +45,14 @@ public class Cell {
     Consequence getConsequence(String target) {
         int i = (int)target.charAt(0) - 65;
         int j = Integer.parseInt(String.valueOf(target.charAt(1)));
-        if (i == 0 && j < 4 || i == 1 && j < 4 || (i == 2 || i == 3 ) && j < 3 || i == 4 && j < 2) {
+        if (i == 0 && j < 5 || i == 1 && j < 4 || (i == 2 || i == 3 ) && j < 3 || i == 4 && j < 2) {
             int k = getNumber(i);
             this.cell[i][j] = 2;
             for (;k != 0; k--) {
                 if (this.cell[i][k] == 1)
                     return new Consequence("hit", true); }
             this.nb_rest[0] -= 1;
-            if (nb_rest[0] == 0)
+            if (nb_rest[0] <= 0)
                 return new Consequence("sunk", false);
             return new Consequence("sunk", true);
         }
